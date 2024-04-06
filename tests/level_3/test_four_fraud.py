@@ -5,7 +5,7 @@ from functions.level_3.four_fraud import find_fraud_expenses
 
 
 @pytest.mark.parametrize('count', [3, 4])
-def test__find_fraud_expenses__transactions_is_fraud_if_count_of_transactions_greater_or_equal_3(make_expenses, count):
+def test__find_fraud_expenses__detect_fraud_if_count_of_transactions_ge_three(make_expenses, count):
     history = make_expenses(
         count=count,
         spent_in='Магнит',
@@ -16,7 +16,7 @@ def test__find_fraud_expenses__transactions_is_fraud_if_count_of_transactions_gr
     assert len(find_fraud_expenses(history)) > 0
 
 
-def test__find_fraud_expenses__transactions_is_not_fraud_if_count_of_transactions_less_than_3(make_expenses):
+def test__find_fraud_expenses__no_fraud_detected_is_not_fraud_if_count_of_transactions_lt_three(make_expenses):
     history = make_expenses(
         count=2,
         spent_in='Магнит',
@@ -27,7 +27,7 @@ def test__find_fraud_expenses__transactions_is_not_fraud_if_count_of_transaction
     assert len(find_fraud_expenses(history)) == 0
 
 
-def test__find_fraud_expenses__transactions_is_not_fraud_if_amount_transactions_greater_than_5000(make_expenses):
+def test__find_fraud_expenses__no_fraud_detected_if_amount_transactions_gt_large_amount(make_expenses):
     history = make_expenses(
         count=3,
         spent_in='Магнит',
@@ -39,7 +39,7 @@ def test__find_fraud_expenses__transactions_is_not_fraud_if_amount_transactions_
 
 
 @pytest.mark.parametrize('amount', [4999, 5000])
-def test__find_fraud_expenses__transactions_is_fraud_if_amount_transactions_less_or_equal_5000(make_expenses, amount):
+def test__find_fraud_expenses__detect_fraud_if_amount_transactions_le_large_amount(make_expenses, amount):
     history = make_expenses(
         count=3,
         spent_in='Магнит',
@@ -50,7 +50,7 @@ def test__find_fraud_expenses__transactions_is_fraud_if_amount_transactions_less
     assert len(find_fraud_expenses(history)) > 0
 
 
-def test__find_fraud_expenses__transactions_is_not_fraud_if_place_of_transactions_is_different(make_expense):
+def test__find_fraud_expenses__no_fraud_detected_if_place_of_transactions_is_different(make_expense):
     history = [
         make_expense(spent_in='Магнит',
                      spent_at=datetime.datetime(2024, 3, 10),
@@ -66,7 +66,7 @@ def test__find_fraud_expenses__transactions_is_not_fraud_if_place_of_transaction
     assert len(find_fraud_expenses(history)) == 0
 
 
-def test__find_fraud_expenses__transactions_is_not_fraud_if_transactions_is_not_simultaneous(make_expense):
+def test__find_fraud_expenses__no_fraud_detected_if_transactions_is_not_simultaneous(make_expense):
     history = [
         make_expense(spent_in='Магнит',
                      spent_at=datetime.datetime(2024, 3, 10),
@@ -82,7 +82,7 @@ def test__find_fraud_expenses__transactions_is_not_fraud_if_transactions_is_not_
     assert len(find_fraud_expenses(history)) == 0
 
 
-def test__find_fraud_expenses__transactions_is_not_fraud_if_amount_of_transactions_is_different(make_expense):
+def test__find_fraud_expenses__no_fraud_detected_if_amount_of_transactions_is_different(make_expense):
     history = [
         make_expense(spent_in='Магнит',
                      spent_at=datetime.datetime(2024, 3, 10),
