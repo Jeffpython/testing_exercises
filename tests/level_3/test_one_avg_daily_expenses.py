@@ -7,8 +7,8 @@ from functions.level_3.one_avg_daily_expenses import calculate_average_daily_exp
 
 @pytest.mark.xfail(reason="different currencies should not be combined")
 def test__calculate_average_daily_expenses__returns_average_of_expenses_for_different_currencies(make_expense):
-    expense_in_rub = make_expense(currency=Currency.RUB)
-    expense_in_usd = make_expense(currency=Currency.USD)
+    expense_in_rub = make_expense(amount=1, currency=Currency.RUB)
+    expense_in_usd = make_expense(amount=1, currency=Currency.USD)
     assert calculate_average_daily_expenses([expense_in_rub, expense_in_usd]) == 2
 
 
@@ -26,4 +26,4 @@ def test__calculate_average_daily_expenses__returns_average_of_expenses_in_diffe
 
 def test__calculate_average_daily_expenses__returns_exception_for_empty_expense(make_expense):
     with pytest.raises(statistics.StatisticsError):
-        assert calculate_average_daily_expenses([])
+        assert calculate_average_daily_expenses(expenses=[])
