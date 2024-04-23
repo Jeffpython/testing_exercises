@@ -8,15 +8,15 @@ NOT_SET = '___'
 
 
 @pytest.fixture
-def create_students(create_student):
+def make_students(make_student):
     def inner(count: int, **kwargs) -> list[Student]:
-        return [create_student(**kwargs) for _ in range(count)]
+        return [make_student(**kwargs) for _ in range(count)]
 
     return inner
 
 
 @pytest.fixture
-def create_student(faker):
+def make_student(faker):
     def inner(
         first_name: str = NOT_SET,
         last_name: str = NOT_SET,
@@ -33,7 +33,7 @@ def create_student(faker):
 
 
 @pytest.fixture
-def create_file(tmp_path):
+def make_file(tmp_path):
     def inner(content, format='txt'):
         d = tmp_path / 'test'
         d.mkdir()
@@ -42,3 +42,8 @@ def create_file(tmp_path):
         return str(p)
 
     return inner
+
+
+@pytest.fixture
+def telegram_account():
+    return 'telegram_account'
